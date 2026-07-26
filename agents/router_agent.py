@@ -1,23 +1,39 @@
-from typing import Dict
+from agents.messages import AgentMessage
 
-def router_agent(state: Dict):
-    """
-    Router Agent:
-    Classifies the user's question.
-    """
 
-    question = state["question"].lower()
+def router_agent(state):
 
-    if "symptom" in question:
-        state["intent"] = "symptoms"
+    question = state["question"]
 
-    elif "treatment" in question:
-        state["intent"] = "treatment"
 
-    elif "prevent" in question:
-        state["intent"] = "prevention"
+    intent = "disease_information"
 
-    else:
-        state["intent"] = "general"
+
+    message: AgentMessage = {
+
+        "sender": "router_agent",
+
+        "receiver": "retrieval_agent",
+
+        "task": "retrieve_documents",
+
+        "content": {
+
+            "intent": intent,
+
+            "query": question
+
+        },
+
+        "status": "completed"
+
+    }
+
+
+    state["messages"].append(message)
+
+
+    state["intent"] = intent
+
 
     return state

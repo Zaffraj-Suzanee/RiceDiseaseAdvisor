@@ -1,4 +1,5 @@
 from rag.retrieve import retrieve_documents
+from agents.messages import AgentMessage
 
 
 def retrieval_agent(state):
@@ -14,5 +15,27 @@ def retrieval_agent(state):
         doc.page_content
         for doc in documents
     ]
+
+      # Agent-to-agent communication message
+    message: AgentMessage = {
+
+        "sender": "retrieval_agent",
+
+        "receiver": "reasoning_agent",
+
+        "task": "provide_context",
+
+        "content": {
+
+            "documents_found": len(documents)
+
+        },
+
+        "status": "completed"
+
+    }
+
+
+    state["messages"].append(message)
 
     return state
