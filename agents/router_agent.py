@@ -1,18 +1,21 @@
 import os
+import streamlit as st
+
 from groq import Groq
 from dotenv import load_dotenv
-
-from agents.messages import AgentMessage
-from config.models import ROUTER_MODEL
-
 
 load_dotenv()
 
 
-client = Groq(
-    api_key=os.getenv("GROQ_API_KEY")
-)
+if "GROQ_API_KEY" in st.secrets:
+    GROQ_API_KEY = st.secrets["GROQ_API_KEY"]
+else:
+    GROQ_API_KEY = os.getenv("GROQ_API_KEY")
 
+
+client = Groq(
+    api_key=GROQ_API_KEY
+)
 
 def router_agent(state):
 
