@@ -2,8 +2,9 @@ import os
 from groq import Groq
 from dotenv import load_dotenv
 
-load_dotenv()
+from config.models import REASONING_MODEL
 
+load_dotenv()
 
 client = Groq(
     api_key=os.getenv("GROQ_API_KEY")
@@ -14,54 +15,62 @@ def reasoning_agent(state):
 
     question = state["question"]
 
-    context = "\n\n".join(
-        state["documents"]
-    )
-
+    context = "\n\n".join(state["documents"][:3])
 
     prompt = f"""
-You are an expert rice disease advisor
-for Sri Lankan farmers.
+You are an expert agricultural extension officer specializing in rice diseases in Sri Lanka.
 
-Use the provided knowledge.
+Use ONLY the retrieved knowledge below.
 
 Question:
 {question}
 
-Retrieved information:
+Retrieved Knowledge:
 {context}
 
-Provide:
-1. Disease identification
-2. Symptoms
-3. Causes
-4. Recommended management
-5. Prevention advice
+Return ONLY valid JSON.
 
-Answer in simple farmer-friendly language.
+Return exactly:
+
+{{
+    "disease":"",
+    "symptoms":"",
+    "causes":"",
+    "management":"",
+    "prevention":""
+}}
+
+Rules:
+
+- Fill ALL fields.
+- Never leave any field empty.
+- Each field should contain one complete paragraph.
+- Return ONLY JSON.
+- Do not use markdown.
+- Do not write anything outside the JSON.
 """
 
-
     response = client.chat.completions.create(
-
-        model="llama-3.3-70b-versatile",
-
+        model=REASONING_MODEL,
+        temperature=0,
         messages=[
             {
-                "role":"user",
-                "content":prompt
+                "role": "system",
+                "content": "Return ONLY valid JSON. Never return explanations outside JSON."
+            },
+            {
+                "role": "user",
+                "content": prompt
             }
         ]
-
     )
 
+    answer = response.choices[0].message.content
 
-    state["answer"] = (
-        response
-        .choices[0]
-        .message
-        .content
-    )
+    print("=" * 60)
+    print(answer)
+    print("=" * 60)
 
+    state["answer"] = answer
 
     return state
