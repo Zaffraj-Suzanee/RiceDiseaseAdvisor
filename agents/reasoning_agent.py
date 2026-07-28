@@ -1,4 +1,5 @@
 import os
+import streamlit as st
 from groq import Groq
 from dotenv import load_dotenv
 
@@ -6,8 +7,14 @@ from config.models import REASONING_MODEL
 
 load_dotenv()
 
+if "GROQ_API_KEY" in st.secrets:
+    GROQ_API_KEY = st.secrets["GROQ_API_KEY"]
+else:
+    GROQ_API_KEY = os.getenv("GROQ_API_KEY")
+
+
 client = Groq(
-    api_key=os.getenv("GROQ_API_KEY")
+    api_key=GROQ_API_KEY
 )
 
 
