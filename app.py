@@ -4,6 +4,7 @@ import os
 import sys
 import re
 
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
 from agents.planner_agent import planner_agent
@@ -72,8 +73,14 @@ st.markdown("""
 
 with st.sidebar:
 
-    if os.path.exists("assets/rice_logo.jpg"):
-        st.image("assets/rice_logo.jpg", width=90)
+    logo_path = os.path.join(
+        BASE_DIR,
+        "assets",
+        "rice_logo.jpg"
+    )
+
+    if os.path.exists(logo_path):
+        st.image(logo_path, width=90)
 
     st.markdown("## 🌾 Rice Disease Advisor")
 
@@ -137,9 +144,14 @@ This intelligent advisory system is designed to support Sri Lankan rice farmers,
 """)
 
 with col2:
+    banner_path = os.path.join(
+        BASE_DIR,
+        "assets",
+        "rice_banner.jpg"
+    )
 
-    if os.path.exists("assets/rice_banner.jpg"):
-        st.image("assets/rice_banner.jpg", use_container_width=True)
+    if os.path.exists(banner_path):
+        st.image(banner_path, use_container_width=True)
 
 st.write("")
 
