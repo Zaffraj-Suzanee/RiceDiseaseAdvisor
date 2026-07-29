@@ -75,22 +75,22 @@ This system is designed for:
 
 <td align="center">
 <img src="screenshots/app1..jpg" width="220"/><br>
-<b>Home Page</b>
+<b>Image 1</b>
 </td>
 
 <td align="center">
 <img src="screenshots/app2.jpg" width="220"/><br>
-<b>Disease Diagnosis</b>
+<b>Image 2</b>
 </td>
 
 <td align="center">
 <img src="screenshots/app3.jpg" width="220"/><br>
-<b>Agent Workflow</b>
+<b>Image 3</b>
 </td>
 
 <td align="center">
 <img src="screenshots/app4.jpg" width="220"/><br>
-<b>Final Recommendation</b>
+<b>Image 4</b>
 </td>
 
 </tr>
